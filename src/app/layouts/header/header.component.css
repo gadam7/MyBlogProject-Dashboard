@@ -1,6 +1,9 @@
-.app-body {
-    margin-top: 150px;
-    min-height: 60vh;
+header {
+    height: 100px;
+}
+
+.site-logo {
+    font-size: 1.5em;
 }
 
 :root {
