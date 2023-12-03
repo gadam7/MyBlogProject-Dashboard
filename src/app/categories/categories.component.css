@@ -1,8 +1,3 @@
-.card {
-    height: 200px;
-    cursor: pointer;
-}
-
 :root {
     --primary-color: #026467;
     --secondary-color: #E5F5EA;
