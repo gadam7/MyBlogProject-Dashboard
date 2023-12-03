@@ -2,28 +2,16 @@
     <div class="row">
         <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
             <h3 class="text-center text-theme-primary">{{ formStatus }} Categories</h3>
-            <p class="text-center mb-5">You can add {{ formStatus }} categories from here ..!</p>
+            <p class="text-center mb-5">You can {{ formStatus }} categories from here ..!</p>
 
-            <form class="form-inline text-center" #categoryForm = 'ngForm' (ngSubmit)="onSubmit(categoryForm)">
-                <div class="col-md-10">
-                    <input 
-                    type="text" 
-                    name="category" 
-                    class="form-control shadow-effect" 
-                    placeholder="Add New Categories" 
-                    #newCategory = 'ngModel'
-                    [(ngModel)] = 'formCategory'
-                    required
-                    [ngClass]="{ 'is-invalid':newCategory.touched && newCategory.invalid }"
-                    >
-                    <div class="alert alert-danger" *ngIf="newCategory.touched && newCategory.invalid">
-                        Category field is required
-                    </div>
-                </div>
+            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                <input type="text" class="form-control shadow-effect" name="description" 
+                        placeholder="Category description" formControlName="description" required>
+                        <br>
+                <input type="text" class="form-control shadow-effect" name="color" 
+                        placeholder="Category color" formControlName="color" required>
+                <button class="btn btn-blockF btn-info mb-2 btn-theme mt-1" [disabled]="categoryForm.invalid"> {{ formStatus }} Category </button>
 
-                <div class="col-md-2">
-                    <button class="btn btn-block btn-info mb-2 btn-theme" [disabled]="categoryForm.invalid"> {{ formStatus }} Category </button>
-                </div>
             </form>
         </div>
     </div>
@@ -38,15 +26,20 @@
                             <tr>
                                 <th>No</th>
                                 <th>Category</th>
-                                <th>Action</th>
+                                <th>Color</th>
+                                <th [colSpan]="2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor= "let category of categoryArray; let i = index">
+                            <tr *ngFor="let category of categoryArray; let i = index">
                                 <td> {{ i + 1 }}</td>
-                                <td> {{ category.data.category }}</td>
+                                <td> {{ category.description }}</td>
+                                <td> {{ category.color }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning" (click)="onEdit(category, category.id)">Edit</button>
+                                    <button class="btn btn-sm btn-warning" (click)="editCategory(category)">Edit</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteCategory(category.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -54,7 +47,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-3"></div>
     </div>
 </div>

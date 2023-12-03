@@ -12,37 +12,29 @@ import { Category } from '../models/category';
 })
 export class CategoriesService {
 
-  constructor(private afs: AngularFirestore, private toastr: ToastrService) { }
+  constructor(private firestore: AngularFirestore) { }
 
-  saveData(data: Category) {
-    this.afs.collection('categories').add(data).then(docRef => {
-      console.log(docRef);
-      this.toastr.success('Data Inserted Successfully ..!');
-    })
-    .catch(err => { console.log(err); });
+  addCategory(description: string, color: string) {
+    return this.firestore.collection('categories').add({ description, color });
   }
 
-  loadData(): Observable<Category[]> {
-    return this.afs.collection('categories').snapshotChanges().pipe(
+  loadData() {
+    return this.firestore.collection('categories').snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
-          const data = a.payload.doc.data();
+          const data = a.payload.doc.data() as { description: string, color: string };
           const id = a.payload.doc.id;
-          return { id, category  };
-        });
+          return { id, description: data.description, color: data.color} as Category;
+        })
       })
     );
   }
 
-  updateData(categoryId: string, newData: Partial<Category['data']>) {
-    this.afs.collection('categories').doc(categoryId).update({ data: newData })
-      .then(() => {
-        console.log('Document successfully updated!');
-        this.toastr.success('Data Updated Successfully ..!');
-      })
-      .catch((error) => {
-        console.error('Error updating document: ', error);
-        this.toastr.error('Failed to update data.');
-      });
+  updateCategory(id: string, description: string, color: string) {
+    return this.firestore.collection('categories').doc(id).update({ description, color });
+  }
+
+  deleteCategory(id: string) {
+    return this.firestore.collection('categories').doc(id).delete();
   }
 }

@@ -3,6 +3,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriesService } from '../services/categories.service';
 import { Category } from '../models/category';
+import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-categories',
@@ -12,56 +14,57 @@ import { Category } from '../models/category';
 export class CategoriesComponent implements OnInit {
 
   categoryArray: Category[] | undefined;
-  formCategory: string | undefined;
   formStatus: string = 'Add';
-  categoryId: string | undefined;
+  description: string = '';
+  categoryForm: FormGroup;
+  selectedCategory: any;
 
-  constructor(private categoryService: CategoriesService) {}
-
-  ngOnInit(): void {
-    this.categoryService.loadData().subscribe((val: Category[]) => {
-      console.log(val);
-      this.categoryArray = val;
+  constructor(private categoryService: CategoriesService, private formBuilder: FormBuilder, private notificationService: NotificationService) {
+    this.categoryForm = this.formBuilder.group({
+      description: ['', Validators.required],
+      color: ['', Validators.required]
     });
   }
 
-  // onSubmit(formData: { reset(): unknown; value: { category: any; }; }) {
-  //   const categoryData = {
-  //     data: {
-  //       category: formData.value.category,
-  //     },
-  //   } as Category;
-  
-  //   if (this.formStatus == 'Add') {
-  //     this.categoryService.saveData(categoryData);
-  //     formData.reset();
-  //   } else if (this.formStatus == 'Edit') {
-  //     this.categoryService.updateData(this.categoryId || '', categoryData.data);
-  //     // Reset the form or perform any additional logic as needed
-  //   }
-  // }
+  ngOnInit(): void {
+    this.categoryService.loadData().subscribe((items => {
+      console.log(items);
+      this.categoryArray = items;
+    }));
+  }
 
-  onSubmit(formData: { reset(): unknown; value: { category: any; }; }) {
-    const categoryData = {
-      data: {
-        category: formData.value.category,
-      },
-    } as Category;
-  
-    if (this.formStatus === 'Add') {
-      this.categoryService.saveData(categoryData);
-      formData.reset();
-    } else if (this.formStatus === 'Edit') {
-      this.categoryService.updateData(this.categoryId || '', categoryData.data);
-      // Reset the form or perform any additional logic as needed
+  onSubmit() {
+    if (this.selectedCategory) {
+      this.categoryService.updateCategory(this.selectedCategory.id, this.categoryForm.value.description, this.categoryForm.value.color).then(() => {
+        this.notificationService.showSuccess('Category updated successfully', 'Success');
+        this.categoryForm.reset();
+        this.selectedCategory = null;
+        this.formStatus = 'Add';
+      }).catch(error => {
+        this.notificationService.showError('Error updating category', 'Error');
+      });
+    } else {
+      this.categoryService.addCategory(this.categoryForm.value.description, this.categoryForm.value.color).then(() => {
+        this.notificationService.showSuccess('Category added successfully', 'Success');
+        this.categoryForm.reset();
+      }).catch(error => {
+        this.notificationService.showError('Error adding category', 'Error');
+      });
     }
   }
-  
-  onEdit(category: Category, categoryId: string) {
-    console.log(categoryId);
-    console.log(category);
-    this.formCategory = category.data.category;
+
+  editCategory(category: any) {
     this.formStatus = 'Edit';
-    this.categoryId = categoryId; // Store the categoryId for later use
+    this.selectedCategory = category;
+    this.categoryForm.controls['description'].setValue(category.description);
+    this.categoryForm.controls['color'].setValue(category.color);
+  }
+
+  deleteCategory(id: string) {
+    this.categoryService.deleteCategory(id).then(() => {
+      this.notificationService.showSuccess('Category deleted successfully', 'Success');
+    }).catch(error => {
+      this.notificationService.showError('Error deleting category', 'Error');
+    });
   }
 }
