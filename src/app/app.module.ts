@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from "@angular/fire/compat";
@@ -15,6 +18,8 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { environment } from 'src/environments/environment.prod';
 import { CategoriesComponent } from './categories/categories.component';
+import { AllPostComponent } from './posts/all-post/all-post.component';
+import { NewPostComponent } from './posts/new-post/new-post.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,9 @@ import { CategoriesComponent } from './categories/categories.component';
     HeaderComponent,
     FooterComponent,
     DashboardComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AllPostComponent,
+    NewPostComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +39,9 @@ import { CategoriesComponent } from './categories/categories.component';
     ReactiveFormsModule,
     FormsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularEditorModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
