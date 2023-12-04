@@ -34,7 +34,17 @@ export class CategoriesService {
     return this.firestore.collection('categories').doc(id).update({ description, color });
   }
 
+  // Video Version updateData
+  // updateCategory(id: string, description: string, color: string) {
+  //   this.firestore.doc(`categories/${id}`).update({ description, color });
+  // }
+
   deleteCategory(id: string) {
     return this.firestore.collection('categories').doc(id).delete();
   }
+
+  // Video Version deleteData
+  // deleteCategory(id: string) {
+  //   this.firestore.doc(`categories/${id}`).delete();
+  // }
 }

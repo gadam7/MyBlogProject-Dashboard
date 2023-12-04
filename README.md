@@ -1,3 +1,11 @@
+# 01-Category-CRUD
+
+## Admin Area - Gategory CRUD
+- Create neew records for categories in Cloud Firestore
+- Read Cloud Firestore Data and load them inside our Angular app
+- Update an existing data
+- Delete an existing data
+
 # AngularBlogDashboard
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.

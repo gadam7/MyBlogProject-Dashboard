@@ -60,6 +60,13 @@ export class CategoriesComponent implements OnInit {
     this.categoryForm.controls['color'].setValue(category.color);
   }
 
+  // Video Version onEdit...
+  // onEdit(category, id) {
+  //   this.formCategory = category;
+  //   this.formStatus = 'Edit';
+  //   this.categoryId = id;
+  // }
+
   deleteCategory(id: string) {
     this.categoryService.deleteCategory(id).then(() => {
       this.notificationService.showSuccess('Category deleted successfully', 'Success');
