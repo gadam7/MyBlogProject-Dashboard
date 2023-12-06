@@ -6,7 +6,8 @@
         </div>
     </div>
 
-    <form [formGroup]="postForm">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
         <div class="row">
             <div class="col-md-7">
                 <div class="card shadow-effect">
@@ -70,7 +71,7 @@
                     [ngClass]="{'is-invalid': fc['category'].touched && fc['category'].invalid}"
                     >
                         <option value="" disabled> Please select a category </option>
-                        <option *ngFor="let category of categoryArray" value=""> {{ category.description }} {{ category.color }}</option>
+                        <option *ngFor="let category of categoryArray" value="{{category.id}}-{{category.description}}-{{category.color}}"> {{ category.description }} {{ category.color }}</option>
                         <!-- <option *ngFor = "let category of categories" value=""> {{ category.data.category }}</option> -->
                     </select>
 
