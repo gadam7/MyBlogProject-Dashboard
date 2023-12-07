@@ -19,7 +19,7 @@ export class NewPostComponent implements OnInit {
   selectedImg: any;
   categoryArray: Category[] | undefined;
   // categories: Array<object>;
-  postForm: FormGroup<any>
+  postForm: FormGroup;
 
   constructor( 
     private categoryService: CategoriesService, 
@@ -36,7 +36,7 @@ export class NewPostComponent implements OnInit {
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
       permalink: ['', Validators.required],
-      excerpt: ['', [Validators.required, Validators.minLength(50)]],
+      excerpt: ['', [Validators.required, Validators.minLength(10)]],
       category: ['', Validators.required],
       postImg: ['', Validators.required],
       content: ['', Validators.required]
@@ -75,13 +75,14 @@ export class NewPostComponent implements OnInit {
   }
 
   onSubmit() {
-
-    let splitted = this.postForm.value.category.split('-');
-    console.log(splitted);
+    // const permalink2 = this.postForm.get('permalink')?.value;
+    // console.log(permalink2);
+    // console.log(this.postForm.controls['permalink'].value);
+    let splitted = this.postForm.value.category.split('-');    
 
     const postData: Post = {
       title: this.postForm.value.title,
-      permalink: this.postForm.value.title,
+      permalink: this.postForm.get('permalink')?.value,
       category: {
         categoryId: splitted[0],
         categoryDescription: splitted[1],
@@ -95,7 +96,9 @@ export class NewPostComponent implements OnInit {
       status: 'new',
       createdAt: new Date()
     }
-    //console.log(postData);
+    console.log('--------------')
+    console.log(postData);
+    console.log('--------------')
 
     this.postService.uploadImage(this.selectedImg, postData);
     this.postForm.reset();
