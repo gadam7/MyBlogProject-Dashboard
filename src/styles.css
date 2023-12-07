@@ -58,3 +58,9 @@ input[type = text], input[type = email] {
     background-color: var(--primary-color);
     color: aliceblue;
 }
+
+#allPosts td, #allPosts th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    max-width: 20px;
+}

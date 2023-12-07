@@ -6,15 +6,16 @@ import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
 import { Category } from '../models/category';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
 
-  constructor( 
-    private storage: AngularFireStorage, private firestore: AngularFirestore, 
-    private toastr: ToastrService, private router: Router ) { }
+  constructor(
+    private storage: AngularFireStorage, private firestore: AngularFirestore,
+    private toastr: ToastrService, private router: Router) { }
 
   uploadImage(selectedImage: any, postData: Post) {
     const filePath = `postIMG/${Date.now()}`;
@@ -22,7 +23,7 @@ export class PostsService {
 
     this.storage.upload(filePath, selectedImage).then(() => {
       console.log('post image uploaded successfully');
-      
+
       this.storage.ref(filePath).getDownloadURL().subscribe(URL => {
         postData.postImgPath = URL;
         console.log(postData);
@@ -43,13 +44,13 @@ export class PostsService {
     return this.firestore.collection('posts').snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
-          const data = a.payload.doc.data() as { 
+          const data = a.payload.doc.data() as {
             title: string,
             permalink: string,
             category: {
-                categoryId: string,
-                categoryDescription: string,
-                categoryColor: string
+              categoryId: string,
+              categoryDescription: string,
+              categoryColor: string
             }
             postImgPath: string,
             excerpt: string,
@@ -57,15 +58,18 @@ export class PostsService {
             isFeatured: boolean,
             views: number,
             status: string,
-            createdAt: Date };
+            //fetch createdAt timestamp from firebase
+            createdAt: any         
+          };
+          const createdAt = data.createdAt.toDate();
           const id = a.payload.doc.id;
-          return { 
-            id, 
-            title: data.title, 
-            postImgPath: data.postImgPath, 
-            excerpt: data.excerpt, 
+          return {
+            id,
+            title: data.title,
+            postImgPath: data.postImgPath,
+            excerpt: data.excerpt,
             category: data.category.categoryDescription,
-            createdAt: data.createdAt  
+            createdAt: createdAt
           } as unknown as Post;
         })
       })

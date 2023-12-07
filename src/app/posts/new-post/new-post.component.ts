@@ -36,7 +36,7 @@ export class NewPostComponent implements OnInit {
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
       permalink: ['', Validators.required],
-      excerpt: ['', [Validators.required, Validators.minLength(10)]],
+      excerpt: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
       category: ['', Validators.required],
       postImg: ['', Validators.required],
       content: ['', Validators.required]
