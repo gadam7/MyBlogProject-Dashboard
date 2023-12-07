@@ -41,7 +41,7 @@
                                     <td> {{ post.createdAt | date:'yyyy/MM/dd h:mm:ss a' }} </td>
                                     <td>
                                         <button class="btn btn-sm btn-warning" routerLink="/posts/new"
-                                            [queryParams]="{id: post.title}"> Edit </button>
+                                            [queryParams]="{id: post.id}"> Edit </button>
                                     </td>
                                 </tr>
                             </tbody>
