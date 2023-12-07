@@ -5,7 +5,7 @@
             <p class="text-center mb-5">You can {{ formStatus }} categories from here ..!</p>
 
             <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-                <input ty`="text" class="form-control shadow-effect" name="description" 
+                <input type="text" class="form-control shadow-effect" name="description" 
                         placeholder="Category description" formControlName="description" required>
                         <br>
                 <input type="text" class="form-control shadow-effect" name="color" 
