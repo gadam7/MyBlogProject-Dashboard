@@ -12,6 +12,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { environment } from 'src/environments/environment.prod';
 import { CategoriesComponent } from './categories/categories.component';
 import { AllPostComponent } from './posts/all-post/all-post.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     DashboardComponent,
     CategoriesComponent,
     AllPostComponent,
-    NewPostComponent
+    NewPostComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     AngularEditorModule,
     HttpClientModule,
     AngularFireStorageModule,
-    DatePipe
+    DatePipe,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

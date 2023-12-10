@@ -1,3 +1,9 @@
+# 03-Authentication & Authorization
+- Designed the login component
+- Login queries and logic
+- Firebase authentication
+- Angular router Guard
+
 # 01-Category-CRUD
 
 ## Admin Area - Gategory CRUD
