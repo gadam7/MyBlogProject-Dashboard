@@ -19,7 +19,14 @@ export class NewPostComponent implements OnInit {
   selectedImg: any;
   categoryArray: Category[] | undefined;
   // categories: Array<object>;
-  postForm: FormGroup;
+  postForm!: FormGroup;
+
+  post: any;
+
+  formStatus: string = 'Add New';
+
+  docId: any;
+  // docIc: string;
 
   constructor( 
     private categoryService: CategoriesService, 
@@ -28,24 +35,45 @@ export class NewPostComponent implements OnInit {
     private route: ActivatedRoute ) {
 
       this.route.queryParams.subscribe(val => {
-        this.postService.loadOneData(val['id']).subscribe(post => {
-          console.log(post)
-        })
-      })
 
-    this.postForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(10)]],
-      permalink: ['', Validators.required],
-      excerpt: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
-      category: ['', Validators.required],
-      postImg: ['', Validators.required],
-      content: ['', Validators.required]
-    })
-    if (this.postForm && this.postForm.get('permalink')) {
-      this.postForm.get('permalink')!.disable();
-    }
+        this.docId = val['id'];
+
+        if(this.docId) {
+          this.postService.loadOneData(val['id']).subscribe(post => {
+
+            this.post = post;
   
-  }
+            this.postForm = this.fb.group({
+              title: [this.post.title, [Validators.required, Validators.minLength(10)]],
+              permalink: [this.post.permalink, Validators.required],
+              excerpt: [this.post.excerpt, [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+              category: [`${this.post.category.categoryId}-${this.post.category.categoryDescription}-${this.post.category.categoryColor}`, Validators.required],
+              //category: [`${this.post.category.categoryArray}`, Validators.required],
+              postImg: ['', Validators.required],
+              content: [this.post.content, Validators.required]
+            })
+            if (this.postForm && this.postForm.get('permalink')) {
+              this.postForm.get('permalink')!.disable();
+            }
+  
+            this.imgSrc = this.post.postImgPath;
+            this.formStatus = 'Edit';
+          })
+        } else {
+          this.postForm = this.fb.group({
+            title: ['', [Validators.required, Validators.minLength(10)]],
+            permalink: ['', Validators.required],
+            excerpt: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+            category: ['', Validators.required],
+            postImg: ['', Validators.required],
+            content: ['', Validators.required]
+          })
+          if (this.postForm && this.postForm.get('permalink')) {
+            this.postForm.get('permalink')!.disable();
+          }
+        }
+      })
+    }
 
   ngOnInit(): void {
     this.categoryService.loadData().subscribe(val => {
@@ -101,7 +129,7 @@ export class NewPostComponent implements OnInit {
     console.log(postData);
     console.log('--------------')
 
-    this.postService.uploadImage(this.selectedImg, postData);
+    this.postService.uploadImage(this.selectedImg, postData, this.formStatus, this.docId);
     this.postForm.reset();
     this.imgSrc = './assets/placeholder-image.jpg';
   }
