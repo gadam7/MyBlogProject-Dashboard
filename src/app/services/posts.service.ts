@@ -102,4 +102,10 @@ export class PostsService {
       this.toastr.warning('Data Deleted ..!');
     })
   }
+
+  markFeatured(id: any, featuredData: any) {
+    this.firestore.doc(`posts/${id}`).update(featuredData).then(() => {
+      this.toastr.info('Featured Status Updated');
+    })
+  }
 }
