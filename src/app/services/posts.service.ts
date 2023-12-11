@@ -104,6 +104,7 @@ export class PostsService {
   }
 
   markFeatured(id: any, featuredData: any) {
+    console.log(`markFeatured called with id: ${id}, featuredData: ${JSON.stringify(featuredData)}`);
     this.firestore.doc(`posts/${id}`).update(featuredData).then(() => {
       this.toastr.info('Featured Status Updated');
     })

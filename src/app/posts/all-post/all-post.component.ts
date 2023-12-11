@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
 import { PostsService } from 'src/app/services/posts.service';
 
@@ -11,11 +11,10 @@ export class AllPostComponent implements OnInit {
 
   postArray: Post[] | undefined;
 
-  constructor( private postService: PostsService) {}
+  constructor( private postService: PostsService, private cdr: ChangeDetectorRef ) {}
 
   ngOnInit(): void {
     this.postService.loadData().subscribe(items => {
-      console.log(items);
       this.postArray = items;
     });
   }
@@ -25,10 +24,29 @@ export class AllPostComponent implements OnInit {
   }
 
   onFeatured(id: any, value: any) {
+    console.log(`onFeatured called with id: ${id}, value: ${value}`);
     const featuredData = {
       isFeatured: value
     }
 
     this.postService.markFeatured(id, featuredData);
   }
+  // onFeatured(id: any, value: boolean): void {
+  //   console.log(`onFeatured called with id: ${id}, value: ${value}`);
+    
+  //   // Check if value is undefined
+  //   if (value === undefined) {
+  //   value = false; // Set a default value
+  //   }
+    
+  //   // Toggle the value
+  //   const newValue = !value;
+    
+  //   const featuredData = {
+  //   isFeatured: newValue
+  //   }
+   
+  //   this.postService.markFeatured(id, featuredData);
+  //   this.cdr.detectChanges(); // Manually trigger change detection
+  // }
 }
