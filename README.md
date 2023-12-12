@@ -1,3 +1,9 @@
+# Subscription form dynamic
+- Sub form to Angular Template Driven
+- Add form validations
+- Store the subscribers in the firestore
+- Load all the subscribers users inside admin dashboard
+
 # 03-Authentication & Authorization
 - Designed the login component
 - Login queries and logic
