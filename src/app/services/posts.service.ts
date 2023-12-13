@@ -73,7 +73,9 @@ export class PostsService {
             postImgPath: data.postImgPath,
             excerpt: data.excerpt,
             category: data.category.categoryDescription,
-            createdAt: createdAt
+            createdAt: createdAt,
+            isFeatured: data.isFeatured,
+            views: data.views
           } as unknown as Post;
         })
       })
