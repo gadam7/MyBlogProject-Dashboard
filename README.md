@@ -224,11 +224,15 @@ The tests will run in watch mode by default. Press `Ctrl+C` to stop.
 
 ### End-to-End Tests
 
-E2E testing framework needs to be added. To add e2e testing:
+E2E testing framework needs to be added. To add e2e testing, you can install Cypress or Protractor:
 
 ```bash
-ng add @angular/cli
-# Then follow prompts to add e2e testing capabilities
+# Using Cypress (recommended)
+npm install --save-dev cypress
+npx cypress open
+
+# Or using Playwright
+npm init playwright@latest
 ```
 
 ## 🤝 Contributing
