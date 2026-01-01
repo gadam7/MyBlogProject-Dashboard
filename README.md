@@ -109,7 +109,7 @@ Before you begin, ensure you have the following installed on your system:
      };
      ```
 
-   **Note**: The `src/environments/` folder is gitignored for security reasons.
+   **Note**: The `src/environments/` folder is gitignored for security reasons. You need to create these files locally with your own Firebase credentials.
 
 ## 💻 Usage
 
@@ -224,7 +224,7 @@ The tests will run in watch mode by default. Press `Ctrl+C` to stop.
 
 ### End-to-End Tests
 
-E2E testing framework needs to be added. To add e2e testing, you can install Cypress or Protractor:
+E2E testing framework needs to be added. To add e2e testing, you can install Cypress or Playwright:
 
 ```bash
 # Using Cypress (recommended)
@@ -233,6 +233,7 @@ npx cypress open
 
 # Or using Playwright
 npm init playwright@latest
+```
 ```
 
 ## 🤝 Contributing
